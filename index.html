@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="alerta"></div>
+      <div class="lds-spinner"><div>
+      <div class="layout-main">
+        <form class="form" id="form-crear">
+          <div class="flex" id="content_input_1">
+            <label for="input_1" class="label">Telefono Celular</label>
+            <input
+              type="text"
+              name="input_1"
+              id="input_1"
+              class="input"
+              placeholder="Telefono Celular"
+            />
+          </div>
+
+          <div class="flex" id="content_input_2">
+            <label for="input_2" class="label">Numero de servicio</label>
+            <input
+              type="text"
+              name="input_2"
+              id="input_2"
+              class="input"
+              placeholder="Numero de servicio"
+            />
+          </div>
+
+          <div class="flex" id="content_input_3">
+            <label for="input_3" class="label">Alias</label>
+            <input
+              type="text"
+              name="input_3"
+              id="input_3"
+              class="input"
+              placeholder="Alias"
+            />
+          </div>
+
+          <input type="hidden" id="id_registro" name="id_registro" value="" />
+        </form>
+
+        <div class="actions">
+          <button class="btn pointer" id="btn-buscar">Buscar</button>
+          <button class="btn pointer" id="btn-crear">Crear</button>
+          <button class="btn pointer" id="btn-actualizar">Actualizar</button>
+          <button class="btn pointer" id="btn-eliminar">Eliminar</button>
+        </div>
+      </div>
+      <div class="container" id="tabla"></div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
