@@ -15,10 +15,10 @@ function response($msg, $data = [], $flag = true, $status = 200)
 function connectDB()
 {
 
-    $nameServer = "192.168.1.2";
-    $nameDB = "DEVS";
-    $userDB = "lcanchola";
-    $password = "lcanchola2022";
+    $nameServer = "";
+    $nameDB = "";
+    $userDB = "";
+    $password = "";
 
     try {
         $conexion = new PDO("sqlsrv:Server=$nameServer;Database=$nameDB", $userDB, $password);

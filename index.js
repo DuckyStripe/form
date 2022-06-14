@@ -14,11 +14,11 @@ const mensajesErroresInputs = {
     alias: 'El campo Alias tiene que ser menor o igual a 10 caracteres.',
     alias_do2: 'El alias no puede contener estos caracteres: .!"#$%&/()=',
     seleccionar: 'Registro duplicado elige un valor de la tabla.',
-    telefono:'El campo Teléfono Celular no puede estar vació en la búsqueda'
+    telefono: 'El campo Teléfono Celular no puede estar vació en la búsqueda'
 }
 let reg = /(\.|\!|\'|\"|\#|\$|\%|\&|\/|\=|\(|\))/g;
 const URL = './crud.php';
-
+eliminarLoading();
 tabla.addEventListener('click', (e) => {
     const input_1 = document.querySelector('#input_1');
     const input_2 = document.querySelector('#input_2');
@@ -96,9 +96,7 @@ btn_crear.addEventListener("click", async (e) => {
     deleteTable();
     const data = Object.fromEntries(new FormData(form_crear));
     const id_registro = document.querySelector('#id_registro');
-
     data.action = '2';
-
     if (data.input_1 === '' || data.input_2 === '' || data.input_3 === '') {
         mostarAlerta(mensajesErroresInputs.general);
         return;
@@ -127,7 +125,7 @@ btn_crear.addEventListener("click", async (e) => {
 
 
     eliminarAlerta();
-
+    loading();
     try {
 
         const request = await fetch(URL, { method: 'POST', body: JSON.stringify(data) });
@@ -137,11 +135,11 @@ btn_crear.addEventListener("click", async (e) => {
 
             form_crear.reset();
             id_registro.value = '';
-            loading();
+            eliminarLoading();
             mostarAlerta('Se creo el registró correctamente', 'success');
 
         } else {
-            loading();
+            eliminarLoading();
             id_registro.value = '';
             mostarAlerta('No se pudo crear el registro', 'error');
         }
@@ -149,7 +147,7 @@ btn_crear.addEventListener("click", async (e) => {
 
     } catch (error) {
         id_registro.value = '';
-        loading();
+        eliminarLoading();
         mostarAlerta('Error! no se logro crear el registro.');
     }
 
@@ -199,29 +197,29 @@ btn_actualizar.addEventListener('click', async (e) => {
     }
 
     eliminarAlerta()
-
+    loading();
     try {
 
         const request = await fetch(URL, { method: 'POST', body: JSON.stringify(data) });
         const info = await request.json();
 
         if (info.ok) {
-            
+            eliminarLoading();
             form_crear.reset();
             _id_registro.value = '';
             mostarAlerta('Se actualizo el resgitro correctamente', 'success');
 
         } else {
-
+            eliminarLoading();
             form_crear.reset();
             _id_registro.value = '';
             mostarAlerta('No se logro actualizar el registro', 'error');
         }
 
     } catch (error) {
+        eliminarLoading();
         form_crear.reset();
         _id_registro.value = '';
-
         mostarAlerta('Error! no se logro actualizar el registro.');
     }
 
@@ -239,7 +237,7 @@ btn_eliminar.addEventListener('click', async e => {
 
     if (data.id_registro !== '') {
 
-
+        loading();
 
         const _confirm = confirm('¿Seguro que deseas eliminar este registro?');
 
@@ -253,19 +251,20 @@ btn_eliminar.addEventListener('click', async e => {
                 const info = await request.json();
 
                 if (info.ok) {
-
+                    eliminarLoading();
                     form_crear.reset();
                     _id_registro.value = '';
                     mostarAlerta('Se elimino el registro correctamente', 'success');
 
                 } else {
-
+                    eliminarLoading();
                     form_crear.reset();
                     _id_registro.value = '';
                     mostarAlerta('No se logro eliminar el registro.', 'error');
                 }
 
             } catch (error) {
+                eliminarLoading();
                 form_crear.reset();
                 _id_registro.value = '';
                 mostarAlerta('Error! no se logro eliminar el registro.');
@@ -275,7 +274,7 @@ btn_eliminar.addEventListener('click', async e => {
         }
 
     } else {
-
+        eliminarLoading();
         form_crear.reset();
         _id_registro.value = '';
         mostarAlerta('No puedes eliminar un registro si no has buscado uno.');
@@ -284,7 +283,26 @@ btn_eliminar.addEventListener('click', async e => {
 
 })
 
+function loading() {    
+    const div = document.querySelector('#loading');
+    console.log("Entro a la funcion",div);
+    if (div) {
+        let loader = document.createElement("div");
+        loader.classList.add("lds-ring","loader");
+        loader.id = "loader";
+        for (let i = 0; i <= 3; i++) {
+            let contenido = document.createElement("div");
+            loader.appendChild(contenido);
+            console.log("div",i);
+        }
+        div.appendChild(loader);
+    }
 
+}
+function eliminarLoading() {
+        const loaderAnterior = document.querySelector('#loader');
+        if (loaderAnterior) { loaderAnterior.remove(); } 
+}
 function eliminarAlerta() {
     const alertaAnterior = document.querySelector('#msg_alert');
     if (alertaAnterior) { alertaAnterior.remove(); }
@@ -300,31 +318,6 @@ function mostarAlerta(contenido, clase = 'error') {
         const alertaAnterior = document.querySelector('#msg_alert');
         if (alertaAnterior) { alertaAnterior.remove(); }
 
-
-        const parrafo = document.createElement('p');
-        parrafo.id = 'msg_alert';
-        parrafo.classList.add(clase);
-        parrafo.textContent = contenido;
-
-        div.appendChild(parrafo);
-
-
-        setTimeout(() => {
-            parrafo.remove();
-        }, 10000);
-    }
-
-}
-function loading() {
-
-    const div = document.querySelector('#lds-spinner');
-
-
-    if (div) {
-        let  clase = 'error';
-        let contenido="Cargando";
-        const alertaAnterior = document.querySelector('#msg_alert');
-        if (alertaAnterior) { alertaAnterior.remove(); }
 
         const parrafo = document.createElement('p');
         parrafo.id = 'msg_alert';
